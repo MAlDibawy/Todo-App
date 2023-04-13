@@ -7,6 +7,9 @@ Check out the live website!- https://maldibawy.github.io/Todo-App/
 ## Technologies
 * React
 * React hooks
+* HTML
+* CSS
+* Bootstrap
 * Local Storage
 
 ## Features
