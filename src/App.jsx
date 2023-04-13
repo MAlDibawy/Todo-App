@@ -85,7 +85,7 @@ function App() {
       </form>
       <div className="text-white text-center mb-2">
         <span onClick={toggleShowDone} role="button">
-          Show completed todos
+          {showDone ? "Show completed todos" : "Hide completed todos"}
         </span>
       </div>
       <div className="d-flex flex-column-reverse">
