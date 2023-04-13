@@ -60,22 +60,23 @@ function App() {
   const editTodo = () => {};
 
   return (
-    <div className="App container">
+    <div className="App container-fluid m-auto">
       <h2 className="text-white mb-4 text-center">Todo List</h2>
 
       <form onSubmit={addTodo}>
-        <div className="d-flex m-auto justify-content-center py-4">
+        <div className="d-flex  justify-content-center py-4">
           <input
             onChange={(e) => {
               setInputText(e.target.value);
             }}
             type="text"
             placeholder="Add a todo..."
-            className="inpValue form-control me-3 w-50"
+            className="inpValue form-control me-2"
             ref={inputRef}
             value={inputText}
+            style={{ maxWidth: "75%" }}
           />
-          <button className="btn btn-primary px-4 text-white" type="submit">
+          <button className="btn btn-primary  text-white" type="submit">
             <span className="icon">
               <i className="fa-solid fa-check d-inline p-2"></i>
             </span>
@@ -90,7 +91,12 @@ function App() {
       <div className="d-flex flex-column-reverse">
         {todos.length == 0 ? (
           <div className="text-center">
-            <img className="todoImg m-5" src={TodoImage} alt="" />
+            <img
+              className="todoImg w-50"
+              src={TodoImage}
+              alt=""
+              style={{ maxHeight: "200px" }}
+            />
           </div>
         ) : (
           todos
