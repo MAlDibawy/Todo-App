@@ -18,15 +18,16 @@ function App() {
 
   const addTodo = (e) => {
     e.preventDefault();
-
-    const newTodo = {
-      id: new Date().getTime(),
-      value: inputText,
-      done: false,
-    };
-    setTodos((prevState) => [...prevState, newTodo]);
-    setInputText("");
-    localStorage.setItem("Todos", JSON.stringify([...todos, newTodo]));
+    if (inputText.trim() != "") {
+      const newTodo = {
+        id: new Date().getTime(),
+        value: inputText,
+        done: false,
+      };
+      setTodos((prevState) => [...prevState, newTodo]);
+      setInputText("");
+      localStorage.setItem("Todos", JSON.stringify([...todos, newTodo]));
+    }
   };
 
   const removeTodo = (todoId) => {
@@ -45,6 +46,8 @@ function App() {
             ? (inputDone.current.style.backgroundColor = "transparent")
             : (inputDone.current.style.backgroundColor = "#0B5ED7");
           return { ...todo, done: !todo.done };
+        } else {
+          return todo;
         }
       });
       localStorage.setItem("Todos", JSON.stringify(newTodos));
