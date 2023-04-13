@@ -96,7 +96,7 @@ function App() {
           todos
             .filter((todo) => !todo.done || !showDone)
             .map((todo) => (
-              <div className="col-8 m-auto p-2" key={todo.id}>
+              <div className="col-lg-8 col-11 m-auto p-2" key={todo.id}>
                 <div className="todoItem d-flex justify-content-between rounded border-0 align-items-center px-2">
                   <div className="d-flex align-items-center">
                     <div
