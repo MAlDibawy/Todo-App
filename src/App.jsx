@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import "./App.css";
+import TodoItem from "./components/todoItem/TodoItem";
 import TodoImage from "/cfd969583ee9557cb6d7ac303d0d2a80.svg";
+
 function App() {
   const [todos, setTodos] = useState([]);
   const [inputText, setInputText] = useState("");
-  const [showDone, setShowDone] = useState(false);
+  const [hideDone, setHideDone] = useState(false);
   const inputRef = useRef(null);
-  const inputDone = useRef(null);
 
   useEffect(() => {
     inputRef.current.focus();
@@ -16,9 +17,13 @@ function App() {
     }
   }, []);
 
+  useEffect(() => {
+    localStorage.setItem("Todos", JSON.stringify(todos));
+  }, [todos]);
+
   const addTodo = (e) => {
     e.preventDefault();
-    if (inputText.trim() != "") {
+    if (inputText.trim() !== "") {
       const newTodo = {
         id: new Date().getTime(),
         value: inputText,
@@ -26,7 +31,6 @@ function App() {
       };
       setTodos((prevState) => [...prevState, newTodo]);
       setInputText("");
-      localStorage.setItem("Todos", JSON.stringify([...todos, newTodo]));
     }
   };
 
@@ -35,32 +39,39 @@ function App() {
     if (!confirm) return;
     const newTodos = todos.filter((todo) => todo.id !== todoId);
     setTodos(newTodos);
-    localStorage.setItem("Todos", JSON.stringify(newTodos));
   };
 
   const checkAsDone = (todoId) => {
     setTodos((prevState) => {
       const newTodos = prevState.map((todo) => {
         if (todo.id === todoId) {
-          todo.done
-            ? (inputDone.current.style.backgroundColor = "transparent")
-            : (inputDone.current.style.backgroundColor = "#0B5ED7");
           return { ...todo, done: !todo.done };
         } else {
           return todo;
         }
       });
-      localStorage.setItem("Todos", JSON.stringify(newTodos));
       return newTodos;
     });
   };
 
   const toggleShowDone = () => {
-    console.log(showDone);
-    setShowDone((prevState) => !prevState);
+    setHideDone((prevState) => !prevState);
   };
 
-  const editTodo = () => {};
+  const editTodo = (todoID, newValue) => {
+    if (newValue.trim() !== "") {
+      setTodos((prevState) => {
+        const newTodos = prevState.map((todo) => {
+          if (todo.id === todoID && todo.value !== newValue) {
+            return { ...todo, value: newValue };
+          } else {
+            return todo;
+          }
+        });
+        return newTodos;
+      });
+    }
+  };
 
   return (
     <div className="App container-fluid m-auto">
@@ -88,7 +99,7 @@ function App() {
       </form>
       <div className="text-white text-center mb-2">
         <span onClick={toggleShowDone} role="button">
-          {showDone ? "Show completed todos" : "Hide completed todos"}
+          {hideDone ? "Show completed todos" : "Hide completed todos"}
         </span>
       </div>
       <div className="d-flex flex-column-reverse">
@@ -103,31 +114,15 @@ function App() {
           </div>
         ) : (
           todos
-            .filter((todo) => !todo.done || !showDone)
+            .filter((todo) => !hideDone || !todo.done)
             .map((todo) => (
-              <div className="col-lg-8 col-11 m-auto p-2" key={todo.id}>
-                <div className="todoItem d-flex justify-content-between rounded border-0 align-items-center px-2">
-                  <div className="d-flex align-items-center">
-                    <div
-                      ref={inputDone}
-                      onClick={() => checkAsDone(todo.id)}
-                      className="done d-flex align-items-center justify-content-center"
-                      style={{
-                        backgroundColor: todo.done ? "#0B5ED7" : "white",
-                      }}
-                    >
-                      <i className="fa-solid fa-check d-inline p-2 text-white"></i>
-                    </div>
-                    <p className="px-2 py-2 m-0">{todo.value}</p>
-                  </div>
-
-                  <i
-                    onClick={() => removeTodo(todo.id)}
-                    className="deleteIcon fa-solid fa-trash-can p-2"
-                    role="button"
-                  ></i>
-                </div>
-              </div>
+              <TodoItem
+                key={todo.id}
+                todo={todo}
+                checkAsDone={checkAsDone}
+                removeTodo={removeTodo}
+                editTodo={editTodo}
+              />
             ))
         )}
       </div>

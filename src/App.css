@@ -50,3 +50,16 @@ button ::placeholder {
 .done:hover {
   background-color: #0b5ed7 !important;
 }
+
+.todoInput {
+  width: 700px;
+}
+
+.todoInput input {
+  background-color: transparent !important;
+}
+
+.todoInput input:focus {
+  background-color: white !important;
+  border: 0 !important;
+}
