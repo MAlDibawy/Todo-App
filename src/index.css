@@ -1,9 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Kanit&display=swap");
 
 :root {
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  /* color-scheme: light dark; */
+  /*
+  color: rgba(255, 255, 255, 0.87); */
+  /* background-color: #242424; */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,7 +14,7 @@
 }
 
 body {
-  background-color: #242424 !important;
+  /* background-color: #242424 !important; */
   font-family: "Kanit", sans-serif !important;
   line-height: 1.5 !important;
   font-weight: 400 !important;

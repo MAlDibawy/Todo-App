@@ -2,12 +2,18 @@ import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import TodoItem from "./components/todoItem/TodoItem";
 import TodoImage from "/cfd969583ee9557cb6d7ac303d0d2a80.svg";
+import { ThemeProvider } from "styled-components";
+import { darkTheme, GlobalStyles, lightTheme } from "./theme";
+import { Switch } from "@mui/material";
 
 function App() {
   const [todos, setTodos] = useState([]);
   const [inputText, setInputText] = useState("");
   const [hideDone, setHideDone] = useState(false);
   const inputRef = useRef(null);
+  const [theme, setTheme] = useState("light");
+  const isDarkTheme = theme === "dark";
+  const toggleTheme = () => setTheme(isDarkTheme ? "light" : "dark");
 
   useEffect(() => {
     inputRef.current.focus();
@@ -74,59 +80,68 @@ function App() {
   };
 
   return (
-    <div className="App container-fluid m-auto">
-      <h2 className="text-white mb-4 text-center">Todo List</h2>
+    <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
+      <GlobalStyles />
+      <div className="App container-fluid m-auto">
+        <label htmlFor="">
+          switch to {isDarkTheme ? "light" : "dark"} theme
+        </label>
 
-      <form onSubmit={addTodo}>
-        <div className="d-flex  justify-content-center py-4">
-          <input
-            onChange={(e) => {
-              setInputText(e.target.value);
-            }}
-            type="text"
-            placeholder="Add a todo..."
-            className="inpValue form-control me-2"
-            ref={inputRef}
-            value={inputText}
-            style={{ maxWidth: "75%" }}
-          />
-          <button className="btn btn-primary  text-white" type="submit">
-            <span className="icon">
-              <i className="fa-solid fa-check d-inline p-2"></i>
-            </span>
-          </button>
-        </div>
-      </form>
-      <div className="text-white text-center mb-2">
-        <span onClick={toggleShowDone} role="button">
-          {hideDone ? "Show completed todos" : "Hide completed todos"}
-        </span>
-      </div>
-      <div className="d-flex flex-column-reverse">
-        {todos.length == 0 ? (
-          <div className="text-center">
-            <img
-              className="todoImg w-50"
-              src={TodoImage}
-              alt=""
-              style={{ maxHeight: "200px" }}
+        <Switch onChange={toggleTheme} />
+
+        <h2 className=" mb-4 text-center">Todo List</h2>
+
+        <form onSubmit={addTodo}>
+          <div className="d-flex  justify-content-center py-4">
+            <input
+              onChange={(e) => {
+                setInputText(e.target.value);
+              }}
+              type="text"
+              placeholder="Add a todo..."
+              className="inpValue form-control me-2"
+              ref={inputRef}
+              value={inputText}
+              style={{ maxWidth: "75%" }}
             />
+            <button className="btn btn-primary  " type="submit">
+              <span className="icon">
+                <i className="fa-solid fa-check d-inline p-2"></i>
+              </span>
+            </button>
           </div>
-        ) : (
-          todos
-            .filter((todo) => !hideDone || !todo.done)
-            .map((todo) => (
-              <TodoItem
-                key={todo.id}
-                todo={todo}
-                checkAsDone={checkAsDone}
-                removeTodo={removeTodo}
-                editTodo={editTodo}
+        </form>
+        <div className=" text-center mb-2">
+          <span onClick={toggleShowDone} role="button">
+            {hideDone ? "Show completed todos" : "Hide completed todos"}
+          </span>
+        </div>
+        <div className="d-flex flex-column-reverse">
+          {todos.length == 0 ? (
+            <div className="text-center">
+              <img
+                className="todoImg w-50"
+                src={TodoImage}
+                alt=""
+                style={{ maxHeight: "200px" }}
               />
-            ))
-        )}
+            </div>
+          ) : (
+            todos
+              .filter((todo) => !hideDone || !todo.done)
+              .map((todo) => (
+                <TodoItem
+                  key={todo.id}
+                  todo={todo}
+                  checkAsDone={checkAsDone}
+                  removeTodo={removeTodo}
+                  editTodo={editTodo}
+                />
+              ))
+          )}
+        </div>
       </div>
-    </div>
+    </ThemeProvider>
   );
 }
 
