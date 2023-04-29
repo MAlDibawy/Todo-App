@@ -20,7 +20,7 @@ export default function TodoItem({ todo, checkAsDone, removeTodo, editTodo }) {
     <>
       <div className="col-lg-8 col-11 m-auto p-2">
         <div className="todoItem d-flex justify-content-between rounded border-0 align-items-center px-2">
-          <div className="d-flex align-items-center justify-content-around">
+          <div className="todoContent d-flex align-items-center justify-content-around">
             <div
               onClick={() => checkAsDone(id)}
               className="done d-flex align-items-center justify-content-center"

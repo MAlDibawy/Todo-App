@@ -52,7 +52,7 @@ button ::placeholder {
 }
 
 .todoInput {
-  width: 700px;
+  width: 100%;
 }
 
 .todoInput input {
@@ -62,4 +62,8 @@ button ::placeholder {
 .todoInput input:focus {
   background-color: white !important;
   border: 0 !important;
+}
+
+.todoContent {
+  width: 95%;
 }
